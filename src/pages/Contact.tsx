@@ -119,7 +119,7 @@ const Contact: React.FC = () => {
       </section>
 
       {/* FAQ Section */}
-      <section
+      <section id="faq"
         className="py-20 bg-cover bg-center bg-no-repeat text-black relative"
         style={{
           backgroundImage: "url('https://res.cloudinary.com/dwdkltr38/image/upload/v1753972654/theme_ytji1w.png')"

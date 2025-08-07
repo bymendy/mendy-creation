@@ -1,17 +1,16 @@
-// Import des dépendances React, EmailJS, ReCAPTCHA, Toast et icônes
 import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { Send, CheckCircle } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { toast } from 'sonner'; // Notification toast
+import { toast } from 'sonner';
 
-// Interface TypeScript pour définir la structure des données du formulaire
+// Interface des données du formulaire
 interface FormData {
   name: string;
   email: string;
   subject: string;
   message: string;
-  company?: string; // Honeypot invisible utilisé pour bloquer les bots
+  company?: string; // Honeypot invisible pour les bots
 }
 
 const ContactForm: React.FC = () => {
@@ -26,18 +25,25 @@ const ContactForm: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [lastSentAt, setLastSentAt] = useState<number | null>(null); // Anti-flood
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Fonction pour éviter les injections HTML
+  // Nettoyage XSS
   const sanitize = (input: string): string =>
     input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  // Validation du formulaire avant envoi
+  // Validation des champs + protections
   const validateForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (formData.company && formData.company.length > 0) return false; // honeypot détecté
+    if (formData.company && formData.company.length > 0) return false; // Bot détecté
+
+    const now = Date.now();
+    if (lastSentAt && now - lastSentAt < 30000) {
+      toast.warning(`Merci de patienter avant de renvoyer un message.`);
+      return false;
+    }
 
     if (formData.name.trim().length < 2) {
       toast.error("Merci d'entrer un nom valide.");
@@ -67,7 +73,7 @@ const ContactForm: React.FC = () => {
     return true;
   };
 
-  // Envoi du formulaire via EmailJS
+  // Gestion de la soumission du formulaire
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef.current) return;
@@ -80,6 +86,7 @@ const ContactForm: React.FC = () => {
     formData.subject = sanitize(formData.subject);
     formData.message = sanitize(formData.message);
 
+    setLastSentAt(Date.now()); // Anti-flood
     setLoading(true);
 
     emailjs
@@ -104,7 +111,7 @@ const ContactForm: React.FC = () => {
       });
   };
 
-  // Affiche un message après soumission
+  // Affiche une confirmation après soumission
   if (isSubmitted) {
     return (
       <div className="bg-white/10 backdrop-blur p-8 rounded-2xl text-center shadow-lg">
@@ -113,13 +120,13 @@ const ContactForm: React.FC = () => {
         </div>
         <h3 className="text-2xl font-bold mb-2 text-black">Message envoyé !</h3>
         <p className="text-blue-400">
-          Merci de nous avoir contacté. Nous reviendrons vers vous dans les plus brefs délais. Une copie de votre message a été envoyée à votre adresse e-mail.
+          Merci de nous avoir contacté. Une copie de votre message vous a été envoyée.
         </p>
       </div>
     );
   }
 
-  // Formulaire principal
+  // Formulaire complet
   return (
     <form
       ref={formRef}
@@ -127,8 +134,10 @@ const ContactForm: React.FC = () => {
       className="bg-white/80 backdrop-blur p-8 rounded-2xl space-y-6 shadow-xl"
       data-aos="fade-down"
     >
+      {/* Timestamp invisible */}
       <input type="hidden" name="timestamp" value={new Date().toLocaleString()} />
 
+      {/* Honeypot anti-bot */}
       <input
         type="text"
         name="company"
@@ -221,7 +230,7 @@ const ContactForm: React.FC = () => {
     </form>
   );
 
-  // Mise à jour du formulaire à chaque frappe utilisateur
+  // Mise à jour des champs
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }

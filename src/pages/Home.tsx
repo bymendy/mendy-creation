@@ -42,7 +42,7 @@ const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div data-aos="fade-up" className="grid md:grid-cols-3 gap-8">
               {values.map((value, index) => (
                 <div
                   key={index}

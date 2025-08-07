@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react'; // Code2 retiré
+import { Menu, X } from 'lucide-react';
 import logo from '../assets/logo-desktop-mendy-creation.png';
 
 interface LayoutProps {
@@ -12,10 +12,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
+    { name: 'Accueil', href: '/' },
+    { name: 'À propos', href: '/about' },
     { name: 'Services', href: '/services' },
-    { name: 'Projects', href: '/projects' },
+    { name: 'Projets', href: '/projects' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -31,6 +31,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <Link to="/" className="flex items-center space-x-3">
               <img src={logo} alt="Mendy Creation Logo" className="h-20 w-auto" />
               <span className="text-xl font-bold text-black hover:text-yellow-500 transition-colors">
+                {/* Optional site name here */}
               </span>
             </Link>
 
@@ -63,7 +64,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <div className="md:hidden pb-4">
-              <nav className="flex flex-col space-y-2">
+              <nav className="flex flex-col items-center text-center space-y-2">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
