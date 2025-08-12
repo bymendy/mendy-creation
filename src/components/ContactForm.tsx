@@ -1,47 +1,47 @@
-import React, { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
-import { Send, CheckCircle } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { toast } from 'sonner';
+// Fichier : src/components/ContactForm.tsx
+import React, { useRef, useState } from "react";
+import { Send, CheckCircle } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { toast } from "sonner";
 
-// Interface des données du formulaire
-interface FormData {
+interface FormDataShape {
   name: string;
   email: string;
+  phone: string;
   subject: string;
   message: string;
-  company?: string; // Honeypot invisible pour les bots
+  company?: string; // honeypot
 }
 
 const ContactForm: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    company: '',
+  const [formData, setFormData] = useState<FormDataShape>({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+    company: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [lastSentAt, setLastSentAt] = useState<number | null>(null); // Anti-flood
+  const [lastSentAt, setLastSentAt] = useState<number | null>(null);
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Nettoyage XSS
   const sanitize = (input: string): string =>
-    input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  // Validation des champs + protections
   const validateForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9+()\s.-]{6,}$/;
 
     if (formData.company && formData.company.length > 0) return false; // Bot détecté
 
     const now = Date.now();
     if (lastSentAt && now - lastSentAt < 30000) {
-      toast.warning(`Merci de patienter avant de renvoyer un message.`);
+      toast.warning("Merci de patienter avant de renvoyer un message.");
       return false;
     }
 
@@ -52,6 +52,11 @@ const ContactForm: React.FC = () => {
 
     if (!emailRegex.test(formData.email)) {
       toast.error("Merci d'entrer une adresse email valide.");
+      return false;
+    }
+
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error("Merci d'entrer un numéro de téléphone valide.");
       return false;
     }
 
@@ -73,45 +78,66 @@ const ContactForm: React.FC = () => {
     return true;
   };
 
-  // Gestion de la soumission du formulaire
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef.current) return;
-
     if (!validateForm()) return;
 
-    // Nettoyage XSS
+    // Nettoyage XSS minimal
     formData.name = sanitize(formData.name);
     formData.email = sanitize(formData.email);
+    formData.phone = sanitize(formData.phone);
     formData.subject = sanitize(formData.subject);
     formData.message = sanitize(formData.message);
 
-    setLastSentAt(Date.now()); // Anti-flood
+    setLastSentAt(Date.now());
     setLoading(true);
 
-    emailjs
-      .sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      .then(() => {
-        toast.success("Message envoyé avec succès !");
-        setIsSubmitted(true);
-        setLoading(false);
-        setFormData({ name: '', email: '', subject: '', message: '', company: '' });
-        setCaptchaToken(null);
-        setTimeout(() => setIsSubmitted(false), 4000);
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Une erreur est survenue, veuillez réessayer.");
-        setLoading(false);
+    try {
+      const fd = new FormData(formRef.current);
+      if (captchaToken) fd.append("token", captchaToken);
+
+      // URL relative : même origine (prod)
+      const response = await fetch("/send-mail.php", {
+        method: "POST",
+        body: fd,
       });
+
+      let result: any = {};
+      try {
+        result = await response.json();
+      } catch {
+        // Si le JSON est illisible, on se base sur response.ok
+      }
+
+      if (response.ok) {
+        toast.success(result?.success || "Message envoyé avec succès !");
+        setIsSubmitted(true);
+
+        // Reset visuel du <form> + reset du state
+        formRef.current?.reset();
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+          company: "",
+        });
+
+        setCaptchaToken(null);
+        // Affiche le panneau "Message envoyé !" (pas de reload de page)
+        setTimeout(() => setIsSubmitted(false), 4000);
+      } else {
+        toast.error(result?.error || "Une erreur est survenue, veuillez réessayer.");
+      }
+    } catch {
+      toast.error("Impossible d'envoyer le message. Veuillez réessayer plus tard.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Affiche une confirmation après soumission
   if (isSubmitted) {
     return (
       <div className="bg-white/10 backdrop-blur p-8 rounded-2xl text-center shadow-lg">
@@ -126,7 +152,6 @@ const ContactForm: React.FC = () => {
     );
   }
 
-  // Formulaire complet
   return (
     <form
       ref={formRef}
@@ -134,7 +159,6 @@ const ContactForm: React.FC = () => {
       className="bg-white/80 backdrop-blur p-8 rounded-2xl space-y-6 shadow-xl"
       data-aos="fade-down"
     >
-      {/* Timestamp invisible */}
       <input type="hidden" name="timestamp" value={new Date().toLocaleString()} />
 
       {/* Honeypot anti-bot */}
@@ -176,6 +200,19 @@ const ContactForm: React.FC = () => {
       </div>
 
       <div>
+        <label className="block text-sm font-medium text-black mb-2">Téléphone *</label>
+        <input
+          type="tel"
+          name="phone"
+          required
+          value={formData.phone}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg text-black bg-white/5 border border-white/20 placeholder-gray-300 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+          placeholder="06 12 34 56 78"
+        />
+      </div>
+
+      <div>
         <label className="block text-sm font-medium text-black mb-2">Sujet *</label>
         <input
           type="text"
@@ -213,14 +250,21 @@ const ContactForm: React.FC = () => {
           disabled={loading}
           className="group bg-[#fde68a] hover:bg-[#fcd34d] text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300 flex items-center space-x-2 hover:scale-105 disabled:opacity-60"
         >
-          <span>{loading ? 'Envoi en cours...' : 'Envoyer un message'}</span>
+          <span>{loading ? "Envoi en cours..." : "Envoyer un message"}</span>
           <Send className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
         </button>
 
         <button
           type="reset"
           onClick={() =>
-            setFormData({ name: '', email: '', subject: '', message: '', company: '' })
+            setFormData({
+              name: "",
+              email: "",
+              phone: "",
+              subject: "",
+              message: "",
+              company: "",
+            })
           }
           className="group border-2 border-[#60a5fa] text-[#60a5fa] hover:border-[#2563eb] hover:text-black px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-[#60a5fa]/10 hover:scale-105"
         >
@@ -230,7 +274,6 @@ const ContactForm: React.FC = () => {
     </form>
   );
 
-  // Mise à jour des champs
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }

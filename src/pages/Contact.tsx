@@ -95,7 +95,7 @@ const Contact: React.FC = () => {
                 key={index}
                 className="text-center p-6 rounded-xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-600/20 rounded-full mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600/20 rounded-full mb-4">
                   <info.icon className="h-8 w-8 text-black-400" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-black">{info.title}</h3>
