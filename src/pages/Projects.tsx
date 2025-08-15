@@ -1,9 +1,9 @@
-// Fichier: src/pages/Projects.tsx
+// Fichier: src/pages/Projects.tsx 
 import React, { useState } from 'react';
 import ProjectCard from '../components/ProjectCard';
 import { projects, categories } from '../data/projects';
-
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const Projects: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -14,6 +14,14 @@ const Projects: React.FC = () => {
 
   return (
     <div className="">
+      <Helmet>
+        <title>Projets - Mendy Creation</title>
+        <meta
+          name="description"
+          content="Découvrez les projets réalisés par Mendy Creation : sites web, applications et solutions numériques innovantes. Un portfolio qui reflète notre savoir-faire et notre engagement pour l'excellence."
+        />
+      </Helmet>
+
       {/* Hero Section */}
       <section className="relative py-20 min-h-[60vh] flex items-center justify-center overflow-hidden bg-backgroundDark text-textLight">
         <div className="absolute inset-0 bg-gradient-to-br from-accent1 via-backgroundDark to-accent2 opacity-30"></div>
@@ -27,7 +35,6 @@ const Projects: React.FC = () => {
             Découvrez notre portefeuille de projets réussis dans divers secteurs et technologies. Chaque projet témoigne de notre engagement envers l'excellence et l'innovation.
           </p>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-
             <Link to="/contact#faq">
               <button className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                 Des interrogations ?

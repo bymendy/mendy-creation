@@ -1,10 +1,7 @@
-import React from 'react';
+import React from 'react'; 
 import Hero from '../components/Hero';
 import { Target, Lightbulb, Users } from 'lucide-react';
-
-
-
-
+import { Helmet } from 'react-helmet-async';
 
 const Home: React.FC = () => {
   const values = [
@@ -27,6 +24,14 @@ const Home: React.FC = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Accueil - Mendy Creation</title>
+        <meta
+          name="description"
+          content="Mendy Creation conçoit et développe des sites web, applications et solutions numériques sur mesure pour booster votre visibilité et votre performance en ligne."
+        />
+      </Helmet>
+
       <Hero />
       
       {/* Mission Statement */}

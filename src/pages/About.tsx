@@ -1,10 +1,9 @@
+// File: src/pages/About.tsx
 import React from 'react';
 import { Award, Code, Globe, Zap } from 'lucide-react';
 import { ArrowRight } from 'lucide-react';
-
-
 import { Link } from 'react-router-dom';
-
+import { Helmet } from 'react-helmet-async';
 
 const About: React.FC = () => {
   const expertise = [
@@ -32,6 +31,14 @@ const About: React.FC = () => {
 
   return (
     <div className="bg-backgroundDark">
+      <Helmet>
+        <title>À propos - Mendy Creation</title>
+        <meta
+          name="description"
+          content="Découvrez Mendy Creation, expert en développement web et solutions numériques sur mesure. Notre équipe combine innovation, collaboration et excellence pour créer des expériences digitales performantes et durables."
+        />
+      </Helmet>
+
       {/* Hero Section avec fond dynamique identique à Hero.tsx */}
       <section className="relative py-20 min-h-[60vh] flex items-center justify-center overflow-hidden bg-backgroundDark text-textLight">
         {/* Dégradé animé */}
@@ -50,7 +57,6 @@ const About: React.FC = () => {
             Nous sommes des développeurs et des concepteurs passionnés qui se consacrent à la création d'expériences numériques exceptionnelles qui ont un impact durable.
           </p>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-8">
-
             <Link to="/services#nosservices">
               <button className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                 Voir nos services
@@ -58,7 +64,6 @@ const About: React.FC = () => {
             </Link>
           </div>           
         </div>
-
       </section>
 
       {/* Mission Statement Section */}
@@ -143,7 +148,7 @@ const About: React.FC = () => {
             </div>
           </div>
           
-                {/* Boutton */}
+          {/* Boutton */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               to="/projects"
@@ -161,9 +166,7 @@ const About: React.FC = () => {
             </Link>
           </div>
         </div>
-        
       </section>
-
 
       {/* Expertise Section with background image */}
       <section id="expertise"
@@ -196,16 +199,16 @@ const About: React.FC = () => {
           </div>
         </div>
         
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black animate-fadeIn">
-              Prêt à démarrer votre projet ?
-            </h2>
-            <Link to="/contact#contact-form">
-              <button className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
-                Commencer dès aujourd'hui
-              </button>
-            </Link>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black animate-fadeIn">
+            Prêt à démarrer votre projet ?
+          </h2>
+          <Link to="/contact#contact-form">
+            <button className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+              Commencer dès aujourd'hui
+            </button>
+          </Link>
+        </div>
       </section>
     </div>
   );

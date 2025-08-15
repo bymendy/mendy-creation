@@ -1,8 +1,9 @@
-// Fichier: src/pages/Contact.tsx
+// Fichier: src/pages/Contact.tsx 
 import React from 'react';
 import ContactForm from '../components/ContactForm';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const Contact: React.FC = () => {
   const contactInfo = [
@@ -34,6 +35,14 @@ const Contact: React.FC = () => {
 
   return (
     <div className="">
+      <Helmet>
+        <title>Contact - Mendy Creation</title>
+        <meta
+          name="description"
+          content="Contactez Mendy Creation pour discuter de votre projet web ou solution numérique sur mesure. Réponse rapide, expertise technique et accompagnement personnalisé."
+        />
+      </Helmet>
+
       {/* Hero Section */}
       <section className="relative py-20 min-h-[60vh] flex items-center justify-center overflow-hidden bg-backgroundDark text-textLight ">
         <div className="absolute inset-0 bg-gradient-to-br from-accent1 via-backgroundDark to-accent2 opacity-30  " />
@@ -47,7 +56,6 @@ const Contact: React.FC = () => {
             Prêt à démarrer votre prochain projet ? Discutons de la manière dont nous pouvons vous aidez à concrétiser votre vision grâce à notre expertise en développement web et en solutions numériques.
           </p>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-
             <Link to="/about#nouschoisir">
               <button className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                 Pourquoi nous choisir ?
@@ -57,10 +65,8 @@ const Contact: React.FC = () => {
         </div>
       </section>
       
-
       {/* Contact Information avec vidéo de fond et glassmorphism */}
       <section className="relative py-20 text-black overflow-hidden bg-white">
-        {/* 🎥 Vidéo en fond */}
         <video
           className="absolute inset-0 w-full h-full object-cover z-0"
           autoPlay
@@ -75,10 +81,8 @@ const Contact: React.FC = () => {
           Votre navigateur ne supporte pas les vidéos HTML5.
         </video>
 
-        {/* Voile blanc + flou pour lisibilité */}
         <div className=" bgwhite "></div>
 
-        {/* Bulles animées pastel harmonisées */}
         <div  className="absolute inset-0 opacity-30 pointer-events-none z-0 animate-fadeIn">
           <div className="absolute top-1/3 left-[15%] w-36 h-36 bg-[#fcd9d5] rounded-full blur-[72px] animate-pulse" />
           <div className="absolute bottom-[25%] right-[20%] w-48 h-48 bg-[#fde68a] rounded-full blur-[80px] animate-pulse delay-500" />
@@ -86,9 +90,7 @@ const Contact: React.FC = () => {
           <div className="absolute bottom-[10%] left-[25%] w-32 h-32 bg-[#bbf7d0] rounded-full blur-[64px] animate-pulse delay-[1200ms]" />
         </div>
 
-        {/* Contenu principal */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Grille d'infos de contact */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {contactInfo.map((info, index) => (
               <div
@@ -105,7 +107,6 @@ const Contact: React.FC = () => {
             ))}
           </div>
 
-          {/* Formulaire de contact */}
           <div id="contact-form" className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black animate-fadeIn">Démarrez votre projet aujourd'hui</h2>
@@ -125,10 +126,8 @@ const Contact: React.FC = () => {
           backgroundImage: "url('https://res.cloudinary.com/dwdkltr38/image/upload/v1753972654/theme_ytji1w.png')"
         }}
       >
-        {/* flou overlay pour effet verre */}
         <div className="backdrop-blur-sm py-10">
           <div data-aos="fade-down" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black animate-fadeIn">
                 Questions fréquemment posées

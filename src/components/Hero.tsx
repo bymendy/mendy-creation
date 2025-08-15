@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
           </h1>
 
           <p className="text-xl md:text-2xl text-neutralLight mb-8 max-w-3xl mx-auto leading-relaxed animate-fadeIn">
-            Créer des expériences numériques exceptionnelles grâce au développement Web personnalisé et à des solutions innovantes
+            Concevons ensemble des expériences web uniques, alliant design sur-mesure et technologies innovantes pour propulser votre présence en ligne.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

@@ -4,6 +4,12 @@ import { Send, CheckCircle } from "lucide-react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "sonner";
 
+type ReCAPTCHAInstance = {
+  reset: () => void;
+  execute?: () => void;
+  getValue?: () => string | null;
+};
+
 interface FormDataShape {
   name: string;
   email: string;
@@ -27,8 +33,10 @@ const ContactForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [lastSentAt, setLastSentAt] = useState<number | null>(null);
+  const [acceptRGPD, setAcceptRGPD] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
+  const recaptchaRef = useRef<ReCAPTCHAInstance | null>(null);
 
   const sanitize = (input: string): string =>
     input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -70,9 +78,16 @@ const ContactForm: React.FC = () => {
       return false;
     }
 
-    if (!captchaToken) {
-      toast.error("Veuillez valider le reCAPTCHA.");
+    // RGPD obligatoire
+    if (!acceptRGPD) {
+      toast.error("Vous devez accepter la politique de confidentialité.");
       return false;
+    }
+
+    // reCAPTCHA SOUPLE côté client : on n'empêche pas l'envoi si pas de token
+    if (!captchaToken) {
+      toast.warning("reCAPTCHA indisponible — nous tentons quand même l’envoi.");
+      // pas de return false ici
     }
 
     return true;
@@ -97,17 +112,24 @@ const ContactForm: React.FC = () => {
       const fd = new FormData(formRef.current);
       if (captchaToken) fd.append("token", captchaToken);
 
-      // URL relative : même origine (prod)
+      // Timeout (15s) pour éviter les requêtes qui pendent
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 15000);
+
+      // URL absolue (racine) : évite que la SPA avale la requête
       const response = await fetch("/send-mail.php", {
         method: "POST",
         body: fd,
-      });
+        signal: controller.signal,
+      }).finally(() => clearTimeout(id));
 
+      // Tolérant aux réponses non-JSON (ex: HTML d’erreur)
+      const raw = await response.text();
       let result: any = {};
       try {
-        result = await response.json();
+        result = JSON.parse(raw);
       } catch {
-        // Si le JSON est illisible, on se base sur response.ok
+        // noop – raw n'est pas JSON
       }
 
       if (response.ok) {
@@ -126,13 +148,24 @@ const ContactForm: React.FC = () => {
         });
 
         setCaptchaToken(null);
+        recaptchaRef.current?.reset();
+
         // Affiche le panneau "Message envoyé !" (pas de reload de page)
         setTimeout(() => setIsSubmitted(false), 4000);
       } else {
         toast.error(result?.error || "Une erreur est survenue, veuillez réessayer.");
+        recaptchaRef.current?.reset();
+        setCaptchaToken(null);
       }
-    } catch {
-      toast.error("Impossible d'envoyer le message. Veuillez réessayer plus tard.");
+    } catch (err: unknown) {
+      const msg =
+        err instanceof DOMException && err.name === "AbortError"
+          ? "Délai dépassé. Réessayez dans un instant."
+          : "Impossible d'envoyer le message. Veuillez réessayer plus tard.";
+
+      toast.error(msg);
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
     } finally {
       setLoading(false);
     }
@@ -238,8 +271,34 @@ const ContactForm: React.FC = () => {
         />
       </div>
 
+      {/* RGPD */}
+      <div className="flex items-start space-x-2">
+        <input
+          type="checkbox"
+          id="acceptRGPD"
+          checked={acceptRGPD}
+          onChange={(e) => setAcceptRGPD(e.target.checked)}
+          className="mt-1"
+          required
+        />
+        <label htmlFor="acceptRGPD" className="text-sm text-black">
+           En cochant la case oui, j'accepte que mes données personnelles soient collectées et utilisées conformément à la {" "}             
+           <a
+            href="/politique-de-confidentialite"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline hover:text-blue-700"
+          >
+            politique de confidentialité
+          </a>, dans le but dans le but de me recontacter.{" "}
+        </label>
+      </div>
+    
       <ReCAPTCHA
-        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+        ref={(el: unknown) => {
+          recaptchaRef.current = el as ReCAPTCHAInstance | null;
+        }}
+        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY as string}
         onChange={(token: string | null) => setCaptchaToken(token)}
         className="flex justify-center"
       />
