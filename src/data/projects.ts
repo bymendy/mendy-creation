@@ -35,7 +35,7 @@ export const projects: Project[] = [
   {
     id: 'portfolio-website',
     title: 'Site Web Portfolio',
-    description: 'Un portfolio pmoderne et design avec des animations fluides et des éléments interactifs.',
+    description: 'Un portfolio moderne et design avec des animations fluides et des éléments interactifs.',
     image: 'https://res.cloudinary.com/dwdkltr38/image/upload/v1754498610/portfolio-barry_mendy_hjh9r5.png',
     technologies: ['Astro', 'JavaScript', 'CSS', 'HTML'],
     category: 'Portfolio',

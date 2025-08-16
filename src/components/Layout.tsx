@@ -1,7 +1,7 @@
 // Fichier : src/components/Layout.tsx
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Instagram, Linkedin } from 'lucide-react'; // ✅ Ajout Instagram + LinkedIn
 import logo from '../assets/logo-desktop-mendy-creation.png';
 
 interface LayoutProps {
@@ -90,7 +90,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-3">
-              <img src={logo} alt="Mendy Creation Logo" className="h-20 w-auto" />
+              <img src={logo} alt="Mendy Creation Logo" className="h-14 w-auto" />
             </Link>
 
             {/* Desktop Navigation */}
@@ -109,12 +109,34 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </Link>
               ))}
 
-              {/* ✅ Bouton popup Calendly (CTA header) */}
+              {/* ✅ Icônes sociales (header desktop) */}
+              <div className="flex space-x-3 ml-4">
+                <a
+                  href="https://www.instagram.com/mendy_creation/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-gray-600 hover:text-pink-500 transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="h-6 w-6" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/mendy-creation-78798837a/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-6 w-6" />
+                </a>
+              </div>
+
+              {/*  Bouton popup Calendly (CTA header) */}
               <button
                 onClick={openCalendly}
-                className="ml-2 px-4 ml-2  py-2 group border-2 border-secondary hover:border-primary text-secondary hover:text-textDark rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                className="ml-2 px-4 py-2 group border-2 border-secondary hover:border-primary text-secondary hover:text-textDark rounded-xl font-semibold transition-all duration-300 hover:scale-105"
               >
-                Prendre rendez‑vous
+                Prendre rendez-vous
               </button>
             </nav>
 
@@ -145,6 +167,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     {item.name}
                   </Link>
                 ))}
+
+                {/* ✅ Icônes sociales (mobile) */}
+                <div className="flex space-x-6 mt-4">
+                  <a
+                    href="https://www.instagram.com/mendy_creation/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 hover:text-pink-500 transition-colors"
+                    aria-label="Instagram"
+                  >
+                    <Instagram className="h-6 w-6" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/mendycreation-mendy-creation-78798837a"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 hover:text-blue-600 transition-colors"
+                    aria-label="LinkedIn"
+                  >
+                    <Linkedin className="h-6 w-6" />
+                  </a>
+                </div>
 
                 {/*  Bouton popup Calendly (mobile) */}
                 <button
@@ -187,6 +231,29 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <img src={logo} alt="Mendy Creation Logo" className="h-10 w-auto" />
               <span className="text-lg font-semibold">Mendy Creation</span>
             </div>
+
+            {/* ✅ Icônes sociales (footer) */}
+            <div className="flex space-x-4 mb-4 md:mb-0">
+              <a
+                href="https://www.instagram.com/mendy_creation/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-pink-500 transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="h-6 w-6" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/mendycreation-mendy-creation-78798837a"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-blue-600 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-6 w-6" />
+              </a>
+            </div>
+
             <p className="text-gray-600 text-sm text-center">
               © 2025 Mendy Creation. Tous droits réservés.
             </p>

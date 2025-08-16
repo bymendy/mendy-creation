@@ -12,7 +12,15 @@ const CookieBanner: React.FC = () => {
         <p className="text-sm">
           Nous utilisons des cookies essentiels pour le fonctionnement du site et,
           avec votre accord, des cookies pour mesurer l’audience et personnaliser le
-          contenu.
+          contenu. En cliquant sur « Tout accepter », vous consentez à notre utilisation des cookies. {" "}
+                     <a
+            href="/politique-de-confidentialite"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline hover:text-blue-700"
+          >
+            Politique de confidentialité
+          </a>{" "}
         </p>
         <div className="mt-3 flex flex-wrap gap-3 justify-end">
           <button
