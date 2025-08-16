@@ -52,7 +52,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/mentions-legales" element={<LegalNotice />} />
             <Route path="/politique-de-confidentialite" element={<Privacy />} />
-            {/* 👇 Route Calendly */}
+            {/*  Route Calendly */} 
             <Route path="/reservation" element={<Booking />} />
           </Routes>
         </Layout>

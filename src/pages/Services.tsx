@@ -117,7 +117,7 @@ const Services: React.FC = () => {
               {/* Bouton vers Booking */}
               <div className="text-center mt-12">
                 <Link
-                  to="/booking"
+                  to="/reservation"
                   className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
                 >
                   Discutons ensemble de votre projet

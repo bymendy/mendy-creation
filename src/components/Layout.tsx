@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-// 🗓️ Ton lien Calendly
+//  lien Calendly
 const CALENDLY_URL = 'https://calendly.com/contact-mendycreation/30min';
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
@@ -67,7 +67,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'Services', href: '/services' },
     { name: 'Projets', href: '/projects' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Réservation', href: '/reservation' }, // ✅ lien Calendly (page)
   ];
 
   const footerLinks = [
@@ -78,7 +77,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'Contact', href: '/contact' },
     { name: 'Mentions légales', href: '/mentions-legales' },
     { name: 'Politique de confidentialité', href: '/politique-de-confidentialite' },
-    { name: 'Réservation', href: '/reservation' }, // ✅ dans le footer aussi
+    { name: 'Réservation', href: '/reservation' }, //  dans le footer aussi
   ];
 
   const isActive = (href: string) => location.pathname === href;
@@ -147,15 +146,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </Link>
                 ))}
 
-                {/* ✅ Bouton popup Calendly (mobile) */}
+                {/*  Bouton popup Calendly (mobile) */}
                 <button
                   onClick={(e) => {
                     setIsMenuOpen(false);
                     openCalendly(e);
                   }}
-                  className="mt-2 px-4 py-2 rounded-lg bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition"
+                  className="ml-2 px-4 py-2 group border-2 border-secondary hover:border-primary text-secondary hover:text-textDark rounded-xl font-semibold transition-all duration-300 hover:scale-105"
                 >
-                  Prendre rendez‑vous
+                  Prendre rendez-vous
                 </button>
               </nav>
             </div>

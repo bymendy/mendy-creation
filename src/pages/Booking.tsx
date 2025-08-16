@@ -1,5 +1,7 @@
+// src/pages/Booking.tsx
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
 const Booking: React.FC = () => {
   return (
@@ -26,29 +28,49 @@ const Booking: React.FC = () => {
             Réserver un rendez-vous
           </h1>
           <p className="text-xl text-neutralLight max-w-3xl mx-auto animate-fadeIn">
-            Choisissez un créneau dans notre agenda pour parler de votre projet.
+            Choisissez un créneau dans notre agenda pour parler de votre projet et explorer des solutions sur-mesure.
           </p>
         </div>
       </section>
 
-      {/* Inline Calendly */}
-      <section className="py-12">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Inline Calendly avec vidéo de fond */}
+      <section className="relative py-12 overflow-hidden">
+        {/* Vidéo de fond */}
+        <video
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source
+            src="https://res.cloudinary.com/dwdkltr38/video/upload/v1754159098/mendy_creation_vod-1_enlqld.mp4"
+            type="video/mp4"
+          />
+          Votre navigateur ne supporte pas les vidéos HTML5.
+        </video>
+
+        {/* Overlay sombre pour contraste */}
+        <div  />
+
+        {/* Contenu Calendly */}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow p-2">
             <iframe
               title="Calendly - Mendy Creation"
-              src="https://calendly.com/contact-mendycreation/30min?"
+              src="https://calendly.com/contact-mendycreation/30min?hide_gdpr_banner=1&text_color=#0060E6&primary_color=fde047"
               width="100%"
               height="800"
               frameBorder="0"
+              loading="lazy"
               style={{ minHeight: 700, width: '100%' }}
             />
             <noscript>
               <div className="p-4 text-center">
-                JavaScript est requis pour charger l’agenda.{" "}
+                JavaScript est requis pour charger l’agenda.{' '}
                 <a
                   className="text-blue-600 underline"
-                  href="https://calendly.com/TON-IDENTIFIANT"
+                  href="https://calendly.com/contact-mendycreation/30min"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -56,6 +78,16 @@ const Booking: React.FC = () => {
                 </a>.
               </div>
             </noscript>
+          </div>
+
+          {/* Bouton retour accueil */}
+          <div className="text-center mt-8">
+            <Link
+              to="/"
+              className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+            >
+              Retour à l’accueil
+            </Link>
           </div>
         </div>
       </section>

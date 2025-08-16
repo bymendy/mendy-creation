@@ -22,11 +22,23 @@ export default {
         fadeIn: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+          orbit: {
+            '0%':   { transform: 'rotate(0deg)' },
+            '100%': { transform: 'rotate(360deg)' },
+          },
+          counter: {
+            '0%':   { transform: 'rotate(0deg)' },
+            '100%': { transform: 'rotate(-360deg)' },
+          },          
         },
       },
       animation: {
         fadeIn: 'fadeIn 1s ease-out forwards',
+        // vitesse LENTE (≈ 40s par tour) — ajuste si tu veux plus/moins lent
+        orbit: 'orbit 40s linear infinite',
+        counter: 'counter 40s linear infinite',        
       },
+
     },
   },
   plugins: [],

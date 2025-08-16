@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
             Mendy Creation
           </h1>
 
-          <p className="text-xl md:text-2xl text-neutralLight mb-8 max-w-3xl mx-auto leading-relaxed animate-fadeIn">
+          <p className="text-xl md:text-3x1 text-neutralLight mb-8 max-w-3xl mx-auto leading-relaxed animate-fadeIn">
             Concevons ensemble des expériences web uniques, alliant design sur-mesure et technologies innovantes pour propulser votre présence en ligne.
           </p>
 
@@ -62,7 +62,7 @@ const Hero: React.FC = () => {
         </div>
       </section>
 
-      {/* 🎨 Section 3 projets avec dégradé et bulles */}
+      {/*  Section 3 projets avec dégradé et bulles */}
       <section  className="relative py-20 bg-backgroundDark text-white overflow-hidden">
         {/* Dégradé de fond animé */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent1 via-backgroundDark to-accent2 opacity-30 z-0 bgwhite"></div>
