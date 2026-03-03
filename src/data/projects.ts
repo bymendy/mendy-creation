@@ -12,7 +12,15 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-
+    {
+    id: 'site-lashesroomstudio',
+    title: 'Site Professionnel - Lashes Room Studio',
+    description: 'Un site vitrine haut de gamme dédié à la beauté du regard, présentant l’univers du studio, les prestations de mise en valeur des cils et sourcils, ainsi que les formations professionnelles éligibles au CPF. Design raffiné, navigation fluide et expérience responsive sur mesure.',
+    image: 'https://res.cloudinary.com/dwdkltr38/image/upload/v1761213773/ecran_lashesroomstudio-mendycreation_qyute8.png',
+    technologies: ['WordPress', 'HTML', 'CSS', 'JavaScript', 'PHP'],
+    category: 'Web Site',
+    liveUrl: 'https://lashesroomstudio.fr/',
+  },
   {
     id: 'batiment-site',
     title: 'Site Vitrine - Mondelice Bâtiment',

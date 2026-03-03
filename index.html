@@ -1,9 +1,15 @@
+<!-- index.html -->
 <!doctype html>
 <html lang="fr">
-
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dwdkltr38/image/upload/v1755093536/mendycreation-favicon_f1h92b.png" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://res.cloudinary.com/dwdkltr38/image/upload/v1755093536/mendycreation-favicon_f1h92b.png"
+    />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Meta description optimisée -->
@@ -12,8 +18,16 @@
       content="Mendy Creation, spécialiste du développement web et des solutions numériques sur mesure. Création et optimisation de sites internet, applications web et plateformes interactives. Conseil en transformation digitale et accompagnement technique."
     />
 
-    <title>Mendy Creation </title>
+    <!--  PWA / iOS -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Mendy Creation" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon_mendycreation.png" />
+
+    <title>Mendy Creation</title>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

@@ -1,6 +1,7 @@
 import React from 'react'; 
 import Hero from '../components/Hero';
 import { Target, Lightbulb, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 const Home: React.FC = () => {
@@ -36,7 +37,7 @@ const Home: React.FC = () => {
       
       {/* Mission Statement */}
       <section id='mission'
-        className="py-20 bg-backgroundDark bg-cover bg-center bg-no-repeat text-black"
+        className="py-20 bg-backgroundDark bg-cover bg-center bg-no-repeat text-black relative shadow-[inset_0_-40px_60px_-20px_rgba(0,0,0,0.15)]"
         style={{ backgroundImage: "url('https://res.cloudinary.com/dwdkltr38/image/upload/v1753972654/theme_ytji1w.png')" }}>
         <div data-aos="fade-up" className="backdrop-blur-sm py-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -61,7 +62,16 @@ const Home: React.FC = () => {
                 </div>
               ))}
             </div>
+            
           </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+          <Link to="/about#about-hero">
+            <button className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg mt-8">
+              En savoir plus 
+            </button>
+          </Link>
+        </div>
         </div>
       </section>
     </>

@@ -8,6 +8,9 @@ import './index.css';
 // 👇 importe ton provider
 import { CookieConsentProvider } from './context/CookieConsent';
 
+// 👇 PWA: enregistre le service worker
+import { registerSW } from 'virtual:pwa-register';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HelmetProvider>
@@ -17,3 +20,10 @@ createRoot(document.getElementById('root')!).render(
     </HelmetProvider>
   </StrictMode>
 );
+
+// ✅ PWA: mise à jour auto (simple et efficace)
+registerSW({
+  onNeedRefresh() {
+    window.location.reload();
+  },
+});

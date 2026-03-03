@@ -4,6 +4,8 @@ import { Award, Code, Globe, Zap } from 'lucide-react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import GoogleReviewsEmbed from "../components/GoogleReviewsEmbed";
+
 
 const About: React.FC = () => {
   const expertise = [
@@ -40,7 +42,7 @@ const About: React.FC = () => {
       </Helmet>
 
       {/* Hero Section avec fond dynamique identique à Hero.tsx */}
-      <section className="relative py-20 min-h-[60vh] flex items-center justify-center overflow-hidden bg-backgroundDark text-textLight">
+      <section id="about-hero" className="relative py-20 min-h-[60vh] flex items-center justify-center overflow-hidden bg-backgroundDark text-textLight">
         {/* Dégradé animé */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent1 via-backgroundDark to-accent2 opacity-30"></div>
 
@@ -50,21 +52,44 @@ const About: React.FC = () => {
           <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-secondary rounded-full filter blur-3xl animate-pulse delay-1000"></div>
         </div>
 
-        {/* Contenu */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center ">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fadeIn">À propos de Mendy Creation</h1>
-          <p className="text-xl text-black max-w-3xl mx-auto animate-fadeIn">
-            Nous sommes des développeurs et des concepteurs passionnés qui se consacrent à la création d'expériences numériques exceptionnelles qui ont un impact durable.
-          </p>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-8">
-            <Link to="/services#nosservices">
-              <button className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
-                Voir nos services
-              </button>
-            </Link>
-          </div>           
+        {/* Contenu en 2 colonnes */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+          
+          {/* Texte */}
+          <div className="text-center md:text-left flex flex-col items-center md:items-start">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fadeIn">
+              À propos de Mendy Creation
+            </h1>
+            <p className="text-xl text-black max-w-2xl animate-fadeIn">
+              Nous concevons et développons des solutions numériques exceptionnelles qui ont un impact durable. 
+              Du concept à la réalisation, nous vous accompagnons pour bâtir une identité digitale forte.
+            </p>
+            <div id="about-button" className="mt-8">
+              <Link to="/services#nosservices">
+                <button className="bg-primary hover:bg-yellow-400 text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+                  Voir nos services
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Vidéo à côté */}
+          <div id="about-video" className="relative w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src="https://res.cloudinary.com/dwdkltr38/video/upload/v1755619459/vod_mendycreation_c5pvrx.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-black/20"></div>
+          </div>
+
         </div>
       </section>
+
 
       {/* Mission Statement Section */}
       <section className="relative py-20 overflow-hidden text-textLight">
@@ -163,8 +188,12 @@ const About: React.FC = () => {
               className="group border-2 border-secondary hover:border-primary text-secondary hover:text-textDark px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
             >
               Nous contacter
-            </Link>
+            </Link>           
           </div>
+          {/* Avis Google (si tu utilises ton composant) */}
+          <div className="mt-12">
+            <GoogleReviewsEmbed />
+          </div>           
         </div>
       </section>
 
